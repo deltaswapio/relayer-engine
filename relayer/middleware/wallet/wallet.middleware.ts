@@ -7,7 +7,7 @@ import {
   CHAIN_ID_TO_NAME,
   ChainId,
   EVMChainId,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import * as sui from "@mysten/sui.js";
 import { WalletToolBox } from "./walletToolBox.js";
 import { Middleware } from "../../compose.middleware.js";

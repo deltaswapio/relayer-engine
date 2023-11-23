@@ -16,7 +16,7 @@ import {
   ChainId,
   coalesceChainName,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 
 import {
   CHAIN_ID_ARBITRUM,
@@ -27,7 +27,7 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SEI,
   CHAIN_ID_SUI,
-} from "@certusone/wormhole-sdk/lib/cjs/utils/consts.js";
+} from "@deltaswapio/deltaswap-sdk/lib/cjs/utils/consts.js";
 import { Environment } from "../../environment.js";
 
 const networks = {

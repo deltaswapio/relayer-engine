@@ -2,8 +2,8 @@ import {
   Environment,
   StandardRelayerApp,
   StandardRelayerContext,
-} from "@wormhole-foundation/relayer-engine";
-import { CHAIN_ID_SOLANA, TokenBridgePayload } from "@certusone/wormhole-sdk";
+} from "@deltaswapio/relayer-engine";
+import { CHAIN_ID_SOLANA, TokenBridgePayload } from "@deltaswapio/deltaswap-sdk";
 
 (async function main() {
   // initialize relayer engine app, pass relevant config options

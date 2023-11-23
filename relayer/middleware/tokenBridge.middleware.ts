@@ -12,16 +12,16 @@ import {
   parseTokenTransferVaa,
   SignedVaa,
   TokenTransfer,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import { ethers, Signer } from "ethers";
 import { ProviderContext } from "./providers.middleware.js";
 import { UnrecoverableError } from "bullmq";
 import {
   ITokenBridge,
   ITokenBridge__factory,
-} from "@certusone/wormhole-sdk/lib/cjs/ethers-contracts/index.js";
+} from "@deltaswapio/deltaswap-sdk/lib/cjs/ethers-contracts/index.js";
 import { encodeEmitterAddress } from "../utils.js";
-import { getObjectFields } from "@certusone/wormhole-sdk/lib/cjs/sui/index.js";
+import { getObjectFields } from "@deltaswapio/deltaswap-sdk/lib/cjs/sui/index.js";
 import { Environment } from "../environment.js";
 
 function extractTokenBridgeAddressesFromSdk(env: Environment) {

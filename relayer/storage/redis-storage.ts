@@ -1,5 +1,5 @@
 import { Queue, Worker } from "bullmq";
-import { ParsedVaa, parseVaa } from "@certusone/wormhole-sdk";
+import { ParsedVaa, parseVaa } from "@deltaswapio/deltaswap-sdk";
 import { Logger } from "winston";
 import {
   Cluster,
@@ -27,12 +27,12 @@ function serializeVaa(vaa: ParsedVaa) {
     nonce: vaa.nonce,
     timestamp: vaa.timestamp,
     version: vaa.version,
-    guardianSignatures: vaa.guardianSignatures.map(sig => ({
+    phylaxSignatures: vaa.phylaxSignatures.map(sig => ({
       signature: sig.signature.toString("base64"),
       index: sig.index,
     })),
     consistencyLevel: vaa.consistencyLevel,
-    guardianSetIndex: vaa.guardianSetIndex,
+    phylaxSetIndex: vaa.phylaxSetIndex,
   };
 }
 
@@ -46,12 +46,12 @@ function deserializeVaa(vaa: Record<string, any>): ParsedVaa {
     nonce: vaa.nonce,
     timestamp: vaa.timestamp,
     version: vaa.version,
-    guardianSignatures: vaa.guardianSignatures.map((sig: any) => ({
+    phylaxSignatures: vaa.phylaxSignatures.map((sig: any) => ({
       signature: Buffer.from(sig.signature, "base64"),
       index: sig.index,
     })),
     consistencyLevel: vaa.consistencyLevel,
-    guardianSetIndex: vaa.guardianSetIndex,
+    phylaxSetIndex: vaa.phylaxSetIndex,
   };
 }
 

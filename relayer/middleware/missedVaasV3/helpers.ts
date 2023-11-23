@@ -3,8 +3,8 @@ import {
   ChainId,
   coalesceChainName,
   getSignedVAAWithRetry,
-} from "@certusone/wormhole-sdk";
-import { GetSignedVAAResponse } from "@certusone/wormhole-spydk/lib/cjs/proto/publicrpc/v1/publicrpc.js";
+} from "@deltaswapio/deltaswap-sdk";
+import { GetSignedVAAResponse } from "@deltaswapio/deltaswap-spydk/lib/cjs/proto/publicrpc/v1/publicrpc.js";
 
 import { SerializableVaaId } from "../../application.js";
 import { FilterIdentifier } from "./worker.js";
@@ -149,20 +149,20 @@ export function updateMetrics(
 
 export async function tryFetchVaa(
   vaaKey: SerializableVaaId,
-  wormholeRpcs: string[],
+  deltaswapRpcs: string[],
   retries: number = 2,
 ): Promise<GetSignedVAAResponse | null> {
   let vaa;
   const stack = new Error().stack;
   try {
     vaa = await getSignedVAAWithRetry(
-      wormholeRpcs,
+      deltaswapRpcs,
       vaaKey.emitterChain as ChainId,
       vaaKey.emitterAddress,
       vaaKey.sequence,
       { transport: FailFastGrpcTransportFactory() },
       100,
-      retries * wormholeRpcs.length,
+      retries * deltaswapRpcs.length,
     );
   } catch (error: any) {
     error.stack = new Error().stack;

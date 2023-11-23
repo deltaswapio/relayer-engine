@@ -1,4 +1,4 @@
-import { ChainId, ParsedVaa } from "@certusone/wormhole-sdk";
+import { ChainId, ParsedVaa } from "@deltaswapio/deltaswap-sdk";
 import { FetchVaaFn } from "./context.js";
 import { EngineError, parseVaaWithBytes, sleep } from "./utils.js";
 import { ParsedVaaWithBytes } from "./application.js";

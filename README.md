@@ -4,35 +4,35 @@ The Relayer Engine is a package meant to provide the structure and a starting po
 
 With the Relayer Engine, a developer can write specific logic for filtering to receive only the messages they care about.
 
-Once a wormhole message is received, the developer may apply additional logic to parse custom payloads or submit the VAA to one or many destination chains.
+Once a deltaswap message is received, the developer may apply additional logic to parse custom payloads or submit the VAA to one or many destination chains.
 
-To use the Relayer engine, a developer may specify how to relay wormhole messages for their app using an idiomatic express/koa middleware inspired api then let the library handle all the details!
+To use the Relayer engine, a developer may specify how to relay deltaswap messages for their app using an idiomatic express/koa middleware inspired api then let the library handle all the details!
 
 Checkout the [quick start](#quick-start) example here, or for a more advanced relayer app, see the [advanced example](./advanced-example.md)
 
 # Quick Start
 
-The source for this example is available [here](https://github.com/wormhole-foundation/relayer-engine/blob/main/examples/simple/src/app.ts)
+The source for this example is available [here](https://github.com/deltaswapio/relayer-engine/blob/main/examples/simple/src/app.ts)
 
 ## Install Package
 
 First, install the `relayer-engine` package with your favorite package manager
 
 ```sh
-npm i @wormhole-foundation/relayer-engine
+npm i @deltaswapio/relayer-engine
 ```
 
 ## Start Background Processes
 
 > note: These processes _must_ be running in order for the relayer app below to work
 
-Next, we must start a Spy to listen for available VAAs published on the guardian network as well as a persistence layer, in this case we're using Redis.
+Next, we must start a Spy to listen for available VAAs published on the phylax network as well as a persistence layer, in this case we're using Redis.
 
-More details about the Spy are available in the [docs](https://docs.wormhole.com/wormhole/explore-wormhole/spy)
+More details about the Spy are available in the [docs](https://docs.deltaswap.com/deltaswap/explore-deltaswap/spy)
 
-### Wormhole Network Spy
+### Deltaswap Network Spy
 
-In order for our Relayer app to receive messages, a local Spy must be running that watches the guardian network. Our relayer app will receive updates from this Spy.
+In order for our Relayer app to receive messages, a local Spy must be running that watches the phylax network. Our relayer app will receive updates from this Spy.
 
 <details>
 <summary><b>Testnet Spy</b></summary>
@@ -40,12 +40,12 @@ In order for our Relayer app to receive messages, a local Spy must be running th
 ```bash
 docker run --platform=linux/amd64 \
 -p 7073:7073 \
---entrypoint /guardiand ghcr.io/wormhole-foundation/guardiand:latest \
+--entrypoint /phylaxd ghcr.io/deltaswapio/phylaxd:latest \
 spy \
 --nodeKey /node.key \
 --spyRPC "[::]:7073" \
---network /wormhole/testnet/2/1 \
---bootstrap /dns4/wormhole-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i
+--network /deltaswap/testnet/2/1 \
+--bootstrap /dns4/deltaswap-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i
 ```
 
 </details>
@@ -56,19 +56,19 @@ spy \
 ```bash
 docker run --platform=linux/amd64 \
 -p 7073:7073 \
---entrypoint /guardiand ghcr.io/wormhole-foundation/guardiand:latest \
+--entrypoint /phylaxd ghcr.io/deltaswapio/phylaxd:latest \
 spy \
 --nodeKey /node.key \
 --spyRPC "[::]:7073" \
---network /wormhole/mainnet/2 \
---bootstrap /dns4/wormhole-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7
+--network /deltaswap/mainnet/2 \
+--bootstrap /dns4/deltaswap-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7
 ```
 
 </details>
 
 ### Redis Persistence
 
-> Note: While we're using Redis here, the persistence layer can be swapped out for some other db by implementing the appropriate [interface](https://github.com/wormhole-foundation/relayer-engine/blob/main/relayer/storage/redis-storage.ts).
+> Note: While we're using Redis here, the persistence layer can be swapped out for some other db by implementing the appropriate [interface](https://github.com/deltaswapio/relayer-engine/blob/main/relayer/storage/redis-storage.ts).
 
 A Redis instance must also be available to persist job data for fetching VAAs from the Spy.
 
@@ -89,8 +89,8 @@ import {
   Environment,
   StandardRelayerApp,
   StandardRelayerContext,
-} from "@wormhole-foundation/relayer-engine";
-import { CHAIN_ID_SOLANA } from "@certusone/wormhole-sdk";
+} from "@deltaswapio/relayer-engine";
+import { CHAIN_ID_SOLANA } from "@deltaswapio/deltaswap-sdk";
 
 (async function main() {
   // initialize relayer engine app, pass relevant config options
@@ -145,7 +145,7 @@ Other `StandardRelayerAppOpts` options
 </summary>
 
 ```ts
-  wormholeRpcs?: string[];  // List of URLs from which to query missed VAAs
+  deltaswapRpcs?: string[];  // List of URLs from which to query missed VAAs
   concurrency?: number;     // How many concurrent requests to make for workflows
   spyEndpoint?: string;     // The hostname and port of our Spy
   logger?: Logger;          // A custom Logger

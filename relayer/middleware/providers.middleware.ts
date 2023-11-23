@@ -16,7 +16,7 @@ import {
   CHAINS,
   EVMChainId,
   EVMChainNames,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import { ethers } from "ethers";
 import * as solana from "@solana/web3.js";
 import {
@@ -26,7 +26,7 @@ import {
   CHAIN_ID_KLAYTN,
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_POLYGON,
-} from "@certusone/wormhole-sdk/lib/cjs/utils/consts.js";
+} from "@deltaswapio/deltaswap-sdk/lib/cjs/utils/consts.js";
 import * as sui from "@mysten/sui.js";
 import { Environment } from "../environment.js";
 import { getCosmWasmClient } from "@sei-js/core";

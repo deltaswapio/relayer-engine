@@ -6,7 +6,7 @@ import {
   MetricsOpts,
 } from "../../relayer/middleware/metrics.middleware";
 import { Middleware, Next } from "../../relayer/compose.middleware";
-import { parseVaa } from "@certusone/wormhole-sdk";
+import { parseVaa } from "@deltaswapio/deltaswap-sdk";
 import { StorageContext } from "../../relayer/storage/storage";
 import { ParsedVaaWithBytes } from "../../relayer/application";
 import { Environment } from "../../relayer/environment";

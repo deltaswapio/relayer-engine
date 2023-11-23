@@ -1,5 +1,5 @@
 import { Cluster, Redis } from "ioredis";
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@deltaswapio/deltaswap-sdk";
 import { Logger } from "winston";
 import { Pool } from "generic-pool";
 import {
@@ -20,7 +20,7 @@ import {
   updateSeenSequences,
 } from "./storage.js";
 import { FilterIdentifier, MissedVaaOpts } from "./worker.js";
-import { Wormholescan } from "../../rpc/wormholescan-client.js";
+import { Deltaswapscan } from "../../rpc/deltaswapscan-client.js";
 
 export type ProcessVaaFn = (x: Buffer) => Promise<void>;
 
@@ -30,7 +30,7 @@ export async function checkForMissedVaas(
   processVaa: ProcessVaaFn,
   opts: MissedVaaOpts,
   prefix: string,
-  wormholescan: Wormholescan,
+  deltaswapscan: Deltaswapscan,
   previousSafeSequence?: bigint | null,
   logger?: Logger,
 ): Promise<MissedVaaRunStats> {
@@ -92,7 +92,7 @@ export async function checkForMissedVaas(
         try {
           vaaResponse = await tryFetchVaa(
             vaa,
-            opts.wormholeRpcs,
+            opts.deltaswapRpcs,
             opts.fetchVaaRetries,
           );
           if (!vaaResponse) {
@@ -105,9 +105,9 @@ export async function checkForMissedVaas(
           // the VAA as failed and seen.
           // VAAs marked as failed generate a metric that can be used to trigger an alert
           // for developers to take a closer look.
-          // At the time of the implementation of this worker, the guardian network in testnet has
-          // only one guardian, and this makes it so that it's possible for some VAAs to be missed
-          // by the guardian.
+          // At the time of the implementation of this worker, the phylax network in testnet has
+          // only one phylax, and this makes it so that it's possible for some VAAs to be missed
+          // by the phylax.
           // Right now the VAAs marked as failed are logged on each iteration of the missed VAA check
           // but it would be nice to have a way to query them
           logger?.error(
@@ -161,7 +161,7 @@ export async function checkForMissedVaas(
   } = await lookAhead(
     lookAheadSequence,
     filter,
-    wormholescan,
+    deltaswapscan,
     opts.fetchVaaRetries,
     opts.maxLookAhead,
     processVaa,
@@ -268,7 +268,7 @@ export async function registerEventListeners(
 async function lookAhead(
   lastSeenSequence: bigint,
   filter: FilterIdentifier,
-  wormholescan: Wormholescan,
+  deltaswapscan: Deltaswapscan,
   maxRetries: number,
   maxLookAhead: number = 10,
   processVaa: ProcessVaaFn,
@@ -289,7 +289,7 @@ async function lookAhead(
     `Looking ahead for missed VAAs from sequence: ${lastSeenSequence}`,
   );
 
-  let latestVaas = await wormholescan.listVaas(
+  let latestVaas = await deltaswapscan.listVaas(
     filter.emitterChain,
     filter.emitterAddress,
     { pageSize: maxLookAhead, retries: maxRetries },

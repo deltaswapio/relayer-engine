@@ -16,9 +16,9 @@ import { runMissedVaaCheck } from "../../../relayer/middleware/missedVaasV3/work
 import { Redis } from "ioredis";
 import { Logger } from "winston";
 import {
-  Wormholescan,
-  WormholescanVaa,
-} from "../../../relayer/rpc/wormholescan-client";
+  Deltaswapscan,
+  DeltaswapscanVaa,
+} from "../../../relayer/rpc/deltaswapscan-client";
 
 jest.mock("../../../relayer/middleware/missedVaasV3/storage");
 jest.mock("../../../relayer/middleware/missedVaasV3/helpers");
@@ -48,7 +48,7 @@ const calculateSequenceStatsMock =
 
 const workingWormscanClient = {
   listVaas: jest.fn(() => Promise.resolve({ data: [] })),
-  getVaa: jest.fn(() => Promise.resolve({ data: {} as WormholescanVaa })),
+  getVaa: jest.fn(() => Promise.resolve({ data: {} as DeltaswapscanVaa })),
 };
 
 describe("MissedVaaV3.worker", () => {
@@ -233,7 +233,7 @@ describe("MissedVaaV3.worker", () => {
       const args = loggerMock.warn.mock.calls[0];
 
       const logTemplate =
-        `Found sequences that we failed to get from wormhole-rpc. Sequences: ` +
+        `Found sequences that we failed to get from deltaswap-rpc. Sequences: ` +
         JSON.stringify(mockFailedSequences);
 
       expect(args[0]).toEqual(logTemplate);

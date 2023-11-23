@@ -1,4 +1,4 @@
-import { ChainId, SignedVaa } from "@certusone/wormhole-sdk";
+import { ChainId, SignedVaa } from "@deltaswapio/deltaswap-sdk";
 import {
   FetchaVaasOpts,
   ListenerFn,

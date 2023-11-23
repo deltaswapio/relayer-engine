@@ -20,7 +20,7 @@ import {
   ExponentialBackoffOpts,
   RedisStorage,
 } from "./storage/redis-storage.js";
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@deltaswapio/deltaswap-sdk";
 import { ClusterNode, ClusterOptions, RedisOptions } from "ioredis";
 import { mergeDeep } from "./utils.js";
 import { defaultLogger } from "./logging.js";
@@ -101,7 +101,7 @@ export class StandardRelayerApp<
       redis,
       redisCluster,
       redisClusterEndpoints,
-      wormholeRpcs,
+      deltaswapRpcs,
       retryBackoffOptions,
       maxCompletedQueueSize,
       maxFailedQueueSize,
@@ -130,7 +130,7 @@ export class StandardRelayerApp<
         redis,
         redisCluster,
         redisClusterEndpoints,
-        wormholeRpcs,
+        deltaswapRpcs,
         concurrency: opts.missedVaaOptions?.concurrency,
         checkInterval: opts.missedVaaOptions?.checkInterval,
         fetchVaaRetries: opts.missedVaaOptions?.fetchVaaRetries,

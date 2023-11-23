@@ -1,4 +1,4 @@
-import * as wormholeSdk from "@certusone/wormhole-sdk";
+import * as deltaswapSdk from "@deltaswapio/deltaswap-sdk";
 import {
   ChainId,
   EVMChainId,
@@ -6,44 +6,44 @@ import {
   isEVMChain,
   parseVaa,
   SignedVaa,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import { bech32 } from "bech32";
-import { deriveWormholeEmitterKey } from "@certusone/wormhole-sdk/lib/cjs/solana/wormhole/index.js";
+import { deriveDeltaswapEmitterKey } from "@deltaswapio/deltaswap-sdk/lib/cjs/solana/deltaswap/index.js";
 import { zeroPad } from "ethers/lib/utils.js";
 import { ParsedVaaWithBytes } from "./application.js";
 import { ethers } from "ethers";
 
 export function encodeEmitterAddress(
-  chainId: wormholeSdk.ChainId,
+  chainId: deltaswapSdk.ChainId,
   emitterAddressStr: string,
 ): string {
   if (
-    chainId === wormholeSdk.CHAIN_ID_SOLANA ||
-    chainId === wormholeSdk.CHAIN_ID_PYTHNET
+    chainId === deltaswapSdk.CHAIN_ID_SOLANA ||
+    chainId === deltaswapSdk.CHAIN_ID_PYTHNET
   ) {
-    return deriveWormholeEmitterKey(emitterAddressStr)
+    return deriveDeltaswapEmitterKey(emitterAddressStr)
       .toBuffer()
       .toString("hex");
   }
-  if (wormholeSdk.isCosmWasmChain(chainId)) {
+  if (deltaswapSdk.isCosmWasmChain(chainId)) {
     return Buffer.from(
       zeroPad(bech32.fromWords(bech32.decode(emitterAddressStr).words), 32),
     ).toString("hex");
   }
-  if (wormholeSdk.isEVMChain(chainId)) {
-    return wormholeSdk.getEmitterAddressEth(emitterAddressStr);
+  if (deltaswapSdk.isEVMChain(chainId)) {
+    return deltaswapSdk.getEmitterAddressEth(emitterAddressStr);
   }
-  if (wormholeSdk.CHAIN_ID_ALGORAND === chainId) {
-    return wormholeSdk.getEmitterAddressAlgorand(BigInt(emitterAddressStr));
+  if (deltaswapSdk.CHAIN_ID_ALGORAND === chainId) {
+    return deltaswapSdk.getEmitterAddressAlgorand(BigInt(emitterAddressStr));
   }
-  if (wormholeSdk.CHAIN_ID_NEAR === chainId) {
-    return wormholeSdk.getEmitterAddressNear(emitterAddressStr);
+  if (deltaswapSdk.CHAIN_ID_NEAR === chainId) {
+    return deltaswapSdk.getEmitterAddressNear(emitterAddressStr);
   }
-  if (wormholeSdk.CHAIN_ID_SUI === chainId) {
+  if (deltaswapSdk.CHAIN_ID_SUI === chainId) {
     return strip0x(emitterAddressStr);
   }
 
-  throw new Error(`Unrecognized wormhole chainId ${chainId}`);
+  throw new Error(`Unrecognized deltaswap chainId ${chainId}`);
 }
 
 export const strip0x = (str: string) =>
@@ -163,7 +163,7 @@ export function assertBool(x: any, fieldName?: string): boolean {
   return x as boolean;
 }
 
-export function wormholeBytesToHex(address: Buffer | Uint8Array): string {
+export function deltaswapBytesToHex(address: Buffer | Uint8Array): string {
   return ethers.utils.hexlify(address).replace("0x", "");
 }
 

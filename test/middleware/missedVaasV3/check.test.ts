@@ -12,9 +12,9 @@ import {
 import { tryFetchVaa } from "../../../relayer/middleware/missedVaasV3/helpers";
 import { Redis } from "ioredis";
 import {
-  Wormholescan,
-  WormholescanVaa,
-} from "../../../relayer/rpc/wormholescan-client";
+  Deltaswapscan,
+  DeltaswapscanVaa,
+} from "../../../relayer/rpc/deltaswapscan-client";
 import { HttpClientError } from "../../../relayer/rpc/http-client";
 
 jest.mock("../../../relayer/middleware/missedVaasV3/storage");
@@ -34,16 +34,16 @@ const getAllProcessedSeqsInOrderMock =
 
 const tryFetchVaaMock = tryFetchVaa as jest.MockedFunction<typeof tryFetchVaa>;
 
-let listVaaResponse: WormholescanVaa[] = [];
+let listVaaResponse: DeltaswapscanVaa[] = [];
 
-const failingWormscanClient: Wormholescan = {
+const failingWormscanClient: Deltaswapscan = {
   listVaas: jest.fn(() =>
     Promise.resolve({ data: [], error: new HttpClientError("foo") }),
   ),
   getVaa: jest.fn(() => Promise.resolve({ error: new HttpClientError("foo") })),
 };
 
-const workingWormscanClient: Wormholescan = {
+const workingWormscanClient: Deltaswapscan = {
   listVaas: jest.fn(() => Promise.resolve({ data: listVaaResponse })),
   getVaa: jest.fn(() => Promise.resolve({ data: listVaaResponse[0] })),
 };

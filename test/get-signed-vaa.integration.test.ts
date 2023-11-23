@@ -1,10 +1,10 @@
 import { afterAll, beforeAll, beforeEach, test } from "@jest/globals";
-import { getSignedVAA } from "@certusone/wormhole-sdk";
+import { getSignedVAA } from "@deltaswapio/deltaswap-sdk";
 import { FailFastGrpcTransportFactory } from "../relayer/rpc/fail-fast-grpc-transport";
-import { WormholeMock } from "./infrastructure/mock-wormscan-api";
+import { DeltaswapMock } from "./infrastructure/mock-wormscan-api";
 
 describe("getSignedVaa", () => {
-  const server = new WormholeMock();
+  const server = new DeltaswapMock();
   let url: string;
 
   beforeAll(async () => {

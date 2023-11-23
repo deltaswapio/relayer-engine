@@ -1,4 +1,4 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@deltaswapio/deltaswap-sdk";
 import {
   ChainConfigInfo,
   EngineInitFn,
@@ -59,8 +59,8 @@ export interface CommonEnv {
   storeType: StoreType;
   redis?: RedisConfig;
   pluginURIs?: NodeURI[];
-  numGuardians?: number;
-  wormholeRpc: string;
+  numPhylaxs?: number;
+  deltaswapRpc: string;
   mode: Mode;
   supportedChains: ChainConfigInfo[];
   defaultWorkflowOptions: WorkflowOptions;
@@ -262,9 +262,9 @@ function validateCommonEnv(raw: Keys<CommonEnv>): CommonEnv {
       raw.supportedChains,
       "supportedChains",
     ).map(validateChainConfig),
-    numGuardians:
-      raw.numGuardians && assertInt(raw.numGuardians, "numGuardians"),
-    wormholeRpc: assertStr(raw.wormholeRpc, "wormholeRpc"),
+    numPhylaxs:
+      raw.numPhylaxs && assertInt(raw.numPhylaxs, "numPhylaxs"),
+    deltaswapRpc: assertStr(raw.deltaswapRpc, "deltaswapRpc"),
   };
 }
 

@@ -1,5 +1,5 @@
 import { Context } from "../context.js";
-import { ParsedVaa, SignedVaa } from "@certusone/wormhole-sdk";
+import { ParsedVaa, SignedVaa } from "@deltaswapio/deltaswap-sdk";
 
 export interface StorageContext extends Context {
   storage: {

@@ -7,7 +7,7 @@ import {
   EVMChainId,
   ParsedVaa,
   SignedVaa,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import * as winston from "winston";
 
 /*
@@ -17,7 +17,7 @@ import * as winston from "winston";
 // subset of common env that plugins should have access to
 export interface CommonPluginEnv {
   supportedChains: ChainConfigInfo[];
-  wormholeRpc: string;
+  deltaswapRpc: string;
 }
 
 export interface ChainConfigInfo {
@@ -120,8 +120,8 @@ export interface WorkflowOptions {
 export interface Plugin<WorkflowData = any> {
   pluginName: string; // String identifier for plugin
   pluginConfig: any; // Configuration settings for plugin
-  shouldSpy: boolean; // Boolean toggle if relayer should connect to Guardian Network via non-validation guardiand node
-  shouldRest: boolean; // Boolean toggle if relayer should connect to Guardian Network via REST API
+  shouldSpy: boolean; // Boolean toggle if relayer should connect to Phylax Network via non-validation phylaxd node
+  shouldRest: boolean; // Boolean toggle if relayer should connect to Phylax Network via REST API
   maxRetries?: number;
 
   afterSetup?(
@@ -157,8 +157,8 @@ export type EventSource = (
 
 export type ContractFilter = {
   emitterAddress: string; // Emitter contract address to filter for
-  chainId: ChainId; // Wormhole ChainID to filter for
-  doNotTransform?: boolean; // If true, do not do chain specific transformation into wormhole emitter address format
+  chainId: ChainId; // Deltaswap ChainID to filter for
+  doNotTransform?: boolean; // If true, do not do chain specific transformation into deltaswap emitter address format
 };
 
 export interface StagingAreaKeyLock {

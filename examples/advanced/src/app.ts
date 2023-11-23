@@ -18,8 +18,8 @@ import {
   RelayJob,
   onJobHandler,
   RedisStorage,
-} from "@wormhole-foundation/relayer-engine";
-import { CHAIN_ID_SOLANA, SignedVaa } from "@certusone/wormhole-sdk";
+} from "@deltaswapio/relayer-engine";
+import { CHAIN_ID_SOLANA, SignedVaa } from "@deltaswapio/deltaswap-sdk";
 import { rootLogger } from "./log.js";
 import { Controller } from "./controller.js";
 import { Logger } from "winston";

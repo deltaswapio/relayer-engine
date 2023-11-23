@@ -2,7 +2,7 @@
 
 This example details a more complex implementation of a Relayer Application. For a simple example see this [example](./README.md#simple-relayer-code-example)
 
-The source for this example is available [here](https://github.com/wormhole-foundation/relayer-engine/blob/main/examples/advanced/src/app.ts)
+The source for this example is available [here](https://github.com/deltaswapio/relayer-engine/blob/main/examples/advanced/src/app.ts)
 
 ## Setup
 
@@ -13,7 +13,7 @@ The source for this example is available [here](https://github.com/wormhole-foun
 Clone the repository, `cd` into the directory, and install the requirements.
 
 ```sh
-git clone https://github.com/wormhole-foundation/relayer-engine.git
+git clone https://github.com/deltaswapio/relayer-engine.git
 cd relayer-engine/examples/advanced/
 npm i
 ```
@@ -22,7 +22,7 @@ npm i
 
 ### Start the background services
 
-Start the Spy to subscribe to gossiped messages on the Guardian network.
+Start the Spy to subscribe to gossiped messages on the Phylax network.
 
 ```sh
 npm run testnet-spy
@@ -189,4 +189,4 @@ The included default functionality may be insufficient for your use case.
 
 If you'd like to apply some specific intermediate processing steps, consider implementing some custom `Middleware`. Be sure to include the appropriate `Context` in the `RelayerApp` type parameterization for any fields you wish to have added to the `Context` object passed to downstream `Middleware`.
 
-If you'd prefer a storage layer besides redis, simply implement the [storage](https://github.com/wormhole-foundation/relayer-engine/blob/main/relayer/storage/storage.ts) interface.
+If you'd prefer a storage layer besides redis, simply implement the [storage](https://github.com/deltaswapio/relayer-engine/blob/main/relayer/storage/storage.ts) interface.

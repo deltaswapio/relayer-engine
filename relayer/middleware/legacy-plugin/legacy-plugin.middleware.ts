@@ -3,7 +3,7 @@ import {
   ChainId,
   EVMChainId,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import { ParsedVaaWithBytes, RelayerApp } from "../../application.js";
 import * as legacy from "./legacy-plugin-definition.js";
 import {

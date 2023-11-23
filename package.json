@@ -1,5 +1,5 @@
 {
-  "name": "@wormhole-foundation/relayer-engine",
+  "name": "@deltaswapio/relayer-engine",
   "version": "0.3.2",
   "description": "Relayer Engine",
   "type": "module",
@@ -14,8 +14,8 @@
     "watch": "tsc --watch",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "prettier": "prettier --write $(git diff main --name-only --diff-filter u | grep '.ts$' | xargs)",
-    "mainnet-spy": "docker run --platform=linux/amd64 -p 7073:7073 --entrypoint /guardiand ghcr.io/wormhole-foundation/guardiand:latest spy --nodeKey /node.key --spyRPC \"[::]:7073\" --network /wormhole/mainnet/2 --bootstrap /dns4/wormhole-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7",
-    "testnet-spy": "docker run --platform=linux/amd64 -p 7073:7073 --entrypoint /guardiand ghcr.io/wormhole-foundation/guardiand:latest spy --nodeKey /node.key --spyRPC \"[::]:7073\" --network /wormhole/testnet/2/1 --bootstrap /dns4/wormhole-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i",
+    "mainnet-spy": "docker run --platform=linux/amd64 -p 7073:7073 --entrypoint /phylaxd ghcr.io/deltaswapio/phylaxd:latest spy --nodeKey /node.key --spyRPC \"[::]:7073\" --network /deltaswap/mainnet/2 --bootstrap /dns4/deltaswap-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7",
+    "testnet-spy": "docker run --platform=linux/amd64 -p 7073:7073 --entrypoint /phylaxd ghcr.io/deltaswapio/phylaxd:latest spy --nodeKey /node.key --spyRPC \"[::]:7073\" --network /deltaswap/testnet/2/1 --bootstrap /dns4/deltaswap-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i",
     "prepare": "npm run build"
   },
   "exports": {
@@ -35,8 +35,8 @@
   "dependencies": {
     "@bull-board/api": "^5.8.1",
     "@bull-board/koa": "^5.8.1",
-    "@certusone/wormhole-sdk": "^0.10.5",
-    "@certusone/wormhole-spydk": "^0.0.1",
+    "@deltaswapio/deltaswap-sdk": "^0.10.7",
+    "@deltaswapio/deltaswap-spydk": "^0.0.1",
     "@datastructures-js/queue": "^4.2.3",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
     "@mysten/sui.js": "^0.32.2",
@@ -54,7 +54,7 @@
   },
   "keywords": [],
   "devDependencies": {
-    "@certusone/wormhole-sdk-proto-node": "^0.0.6",
+    "@deltaswapio/deltaswap-sdk-proto-node": "^0.0.6",
     "@cloudnc/grpc-web-testing-toolbox": "^2.2.0",
     "@jest/globals": "^29.6.4",
     "@types/bluebird": "^3.5.38",

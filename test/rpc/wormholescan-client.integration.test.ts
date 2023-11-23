@@ -1,18 +1,18 @@
 import { beforeEach, beforeAll, afterAll, describe, test } from "@jest/globals";
-import { WormholescanClient } from "../../relayer/rpc/wormholescan-client";
-import { WormholeMock } from "../infrastructure/mock-wormscan-api";
+import { DeltaswapscanClient } from "../../relayer/rpc/deltaswapscan-client";
+import { DeltaswapMock } from "../infrastructure/mock-wormscan-api";
 import { HttpClientError } from "../../relayer/rpc/http-client";
 
-let client: WormholescanClient;
+let client: DeltaswapscanClient;
 let timeout: number = 100; // 100ms
 
-describe("wormholescan-client", () => {
-  const server = new WormholeMock();
+describe("deltaswapscan-client", () => {
+  const server = new DeltaswapMock();
   let url: string;
 
   beforeAll(async () => {
     url = (await server.start()).uri;
-    client = new WormholescanClient(new URL(url), { retries: 0, timeout });
+    client = new DeltaswapscanClient(new URL(url), { retries: 0, timeout });
   }, 10_000);
 
   beforeEach(async () => {

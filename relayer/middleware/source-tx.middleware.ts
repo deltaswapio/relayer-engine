@@ -6,12 +6,12 @@ import {
   CHAIN_ID_SOLANA,
   ChainId,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import { Logger } from "winston";
 import { Environment } from "../environment.js";
 import { LRUCache } from "lru-cache";
 import { ParsedVaaWithBytes } from "../application.js";
-import { WormholescanClient } from "../rpc/wormholescan-client.js";
+import { DeltaswapscanClient } from "../rpc/deltaswapscan-client.js";
 
 export interface SourceTxOpts {
   wormscanEndpoint: string;
@@ -26,8 +26,8 @@ export interface SourceTxContext extends Context {
 }
 
 export const wormscanEndpoints: { [k in Environment]: string | undefined } = {
-  [Environment.MAINNET]: "https://api.wormholescan.io",
-  [Environment.TESTNET]: "https://api.testnet.wormholescan.io",
+  [Environment.MAINNET]: "https://api.deltaswapscan.io",
+  [Environment.TESTNET]: "https://api.testnet.deltaswapscan.io",
   [Environment.DEVNET]: undefined,
 };
 
@@ -65,7 +65,7 @@ function ifVAAFinalized(vaa: ParsedVaaWithBytes) {
   return consistencyLevel !== 200 && consistencyLevel !== 201;
 }
 
-let wormholescan: WormholescanClient;
+let deltaswapscan: DeltaswapscanClient;
 
 export function sourceTx(
   optsWithoutDefaults?: SourceTxOpts,
@@ -123,9 +123,9 @@ export async function fetchVaaHash(
   env: Environment,
   sourceTxOpts?: SourceTxOpts,
 ) {
-  if (!wormholescan) {
+  if (!deltaswapscan) {
     const opts = sourceTxOpts || defaultOptsByEnv[env];
-    wormholescan = new WormholescanClient(new URL(opts.wormscanEndpoint), {
+    deltaswapscan = new DeltaswapscanClient(new URL(opts.wormscanEndpoint), {
       retries: opts.retries,
       initialDelay: opts.initialDelay,
       maxDelay: opts.maxDelay,
@@ -133,7 +133,7 @@ export async function fetchVaaHash(
     });
   }
 
-  const response = await wormholescan.getVaa(
+  const response = await deltaswapscan.getVaa(
     emitterChain,
     emitterAddress.toString("hex"),
     sequence,

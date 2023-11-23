@@ -1,4 +1,4 @@
-// This is not part of the wormhole SDK but it is fixed and shouldn't change across releases.
+// This is not part of the deltaswap SDK but it is fixed and shouldn't change across releases.
 import { Environment } from "../environment.js";
 
 const tokenBridgeEmitterCapTestnet =

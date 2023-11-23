@@ -1,18 +1,18 @@
 import * as http from "http";
 import { setTimeout } from "timers/promises";
 import { grpcResponseToBuffer } from "@cloudnc/grpc-web-testing-toolbox/base";
-import { GetSignedVAAResponse } from "@certusone/wormhole-sdk-proto-node/lib/cjs/publicrpc/v1/publicrpc";
+import { GetSignedVAAResponse } from "@deltaswapio/deltaswap-sdk-proto-node/lib/cjs/publicrpc/v1/publicrpc";
 
-type WormholeMockConfig = {
+type DeltaswapMockConfig = {
   uri: string;
 };
 
 const httpAddress = "http://localhost:559" + Math.floor(Math.random() * 10);
 
 /**
- * A mock for Wormholescan API.
+ * A mock for Deltaswapscan API.
  */
-export class WormholeMock {
+export class DeltaswapMock {
   private httpServer?: http.Server;
   private started: boolean = false;
   private responseQueue: Array<{
@@ -22,7 +22,7 @@ export class WormholeMock {
     delayMs?: number;
   }> = [];
 
-  public async start(): Promise<WormholeMockConfig> {
+  public async start(): Promise<DeltaswapMockConfig> {
     if (this.started) {
       return Promise.resolve({ uri: httpAddress });
     }
@@ -41,7 +41,7 @@ export class WormholeMock {
       }
 
       if (req.url?.includes("GetSignedVAA")) {
-        // Default response for getSignedVAA from guardian rpc.
+        // Default response for getSignedVAA from phylax rpc.
         res.writeHead(200, { "Content-Type": "application/text" });
         res.end(
           grpcResponseToBuffer({
@@ -53,7 +53,7 @@ export class WormholeMock {
       }
 
       if (req.url?.includes("api/v1/vaas") && req.url?.includes("pageSize")) {
-        // Wormholescan api.
+        // Deltaswapscan api.
         // List vaas. This could be further improved to return a dynamic list, or even statuses.
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(

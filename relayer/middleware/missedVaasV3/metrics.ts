@@ -50,7 +50,7 @@ export function initMetrics(registry: Registry): MissedVaaMetrics {
 
   const failedToRecover = new Counter({
     name: "missed_vaas_failed_to_recover",
-    help: "The number of VAAs that were detected but failed to recover from the guardian api",
+    help: "The number of VAAs that were detected but failed to recover from the phylax api",
     registers: [registry],
     labelNames: ["emitterChain", "emitterAddress"],
   });

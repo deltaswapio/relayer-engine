@@ -9,7 +9,7 @@ import {
   getSignedVAAWithRetry,
   ParsedVaa,
   SignedVaa,
-} from "@certusone/wormhole-sdk";
+} from "@deltaswapio/deltaswap-sdk";
 import {
   compose,
   composeError,
@@ -23,7 +23,7 @@ import { BigNumber } from "ethers";
 import {
   createSpyRPCServiceClient,
   subscribeSignedVAA,
-} from "@certusone/wormhole-spydk";
+} from "@deltaswapio/deltaswap-spydk";
 import { UnrecoverableError } from "bullmq";
 import {
   encodeEmitterAddress,
@@ -38,14 +38,14 @@ import { RelayJob, Storage } from "./storage/storage.js";
 import { emitterCapByEnv } from "./configs/sui.js";
 import { LRUCache } from "lru-cache";
 import { Environment } from "./environment.js";
-import { SpyRPCServiceClient } from "@certusone/wormhole-spydk/lib/cjs/proto/spy/v1/spy.js";
+import { SpyRPCServiceClient } from "@deltaswapio/deltaswap-spydk/lib/cjs/proto/spy/v1/spy.js";
 import { Registry } from "prom-client";
 import { createRelayerMetrics, RelayerMetrics } from "./application.metrics.js";
 
 export { UnrecoverableError };
 
 export interface RelayerAppOpts {
-  wormholeRpcs?: string[];
+  deltaswapRpcs?: string[];
   concurrency?: number;
 }
 
@@ -55,23 +55,23 @@ export type FetchaVaasOpts = {
   attempts?: number;
 };
 
-export const defaultWormholeRpcs = {
-  [Environment.MAINNET]: ["https://api.wormholescan.io"],
+export const defaultDeltaswapRpcs = {
+  [Environment.MAINNET]: ["https://api.deltaswapscan.io"],
   [Environment.TESTNET]: [
-    "https://wormhole-v2-testnet-api.certus.one",
-    "https://api.testnet.wormholescan.io",
+    "https://deltaswap-v2-testnet-api.certus.one",
+    "https://api.testnet.deltaswapscan.io",
   ],
   [Environment.DEVNET]: [""],
 };
 
 export const defaultWormscanUrl = {
-  [Environment.MAINNET]: "https://api.wormholescan.io",
-  [Environment.TESTNET]: "https://api.testnet.wormholescan.io",
-  [Environment.DEVNET]: "https://api.testnet.wormholescan.io",
+  [Environment.MAINNET]: "https://api.deltaswapscan.io",
+  [Environment.TESTNET]: "https://api.testnet.deltaswapscan.io",
+  [Environment.DEVNET]: "https://api.testnet.deltaswapscan.io",
 };
 
 const defaultOpts = (env: Environment): RelayerAppOpts => ({
-  wormholeRpcs: defaultWormholeRpcs[env],
+  deltaswapRpcs: defaultDeltaswapRpcs[env],
   concurrency: 1,
 });
 
@@ -263,7 +263,7 @@ export class RelayerApp<ContextT extends Context> extends EventEmitter {
   }
 
   /**
-   * Fetches a VAA from a wormhole compatible RPC.
+   * Fetches a VAA from a deltaswap compatible RPC.
    * You can specify how many times to retry in case it fails and how long to wait between retries
    * @param chain emitterChain
    * @param emitterAddress
@@ -284,7 +284,7 @@ export class RelayerApp<ContextT extends Context> extends EventEmitter {
     },
   ): Promise<ParsedVaaWithBytes> {
     const res = await getSignedVAAWithRetry(
-      this.opts.wormholeRpcs,
+      this.opts.deltaswapRpcs,
       Number(chain) as ChainId,
       emitterAddress.toString("hex"),
       sequence.toString(),
@@ -427,9 +427,9 @@ export class RelayerApp<ContextT extends Context> extends EventEmitter {
      docker run \
      --platform=linux/amd64 \
      -p 7073:7073 \
-     --entrypoint /guardiand \
-     ghcr.io/wormhole-foundation/guardiand:latest \
-     spy --nodeKey /node.key --spyRPC "[::]:7073" --network /wormhole/testnet/2/1 --bootstrap /dns4/wormhole-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i
+     --entrypoint /phylaxd \
+     ghcr.io/deltaswapio/phylaxd:latest \
+     spy --nodeKey /node.key --spyRPC "[::]:7073" --network /deltaswap/testnet/2/1 --bootstrap /dns4/deltaswap-testnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWAkB9ynDur1Jtoa97LBUp8RXdhzS5uHgAfdTquJbrbN7i
      * ```
      *
      * You can run the spy locally (for MAINNET) by doing:
@@ -437,9 +437,9 @@ export class RelayerApp<ContextT extends Context> extends EventEmitter {
      docker run \
      --platform=linux/amd64 \
      -p 7073:7073 \
-     --entrypoint /guardiand \
-     ghcr.io/wormhole-foundation/guardiand:latest \
-     spy --nodeKey /node.key --spyRPC "[::]:7073" --network /wormhole/mainnet/2 --bootstrap /dns4/wormhole-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7,/dns4/wormhole-v2-mainnet-bootstrap.xlabs.xyz/udp/8999/quic/p2p/12D3KooWNQ9tVrcb64tw6bNs2CaNrUGPM7yRrKvBBheQ5yCyPHKC
+     --entrypoint /phylaxd \
+     ghcr.io/deltaswapio/phylaxd:latest \
+     spy --nodeKey /node.key --spyRPC "[::]:7073" --network /deltaswap/mainnet/2 --bootstrap /dns4/deltaswap-mainnet-v2-bootstrap.certus.one/udp/8999/quic/p2p/12D3KooWQp644DK27fd3d4Km3jr7gHiuJJ5ZGmy8hH4py7fP4FP7,/dns4/deltaswap-v2-mainnet-bootstrap.xlabs.xyz/udp/8999/quic/p2p/12D3KooWNQ9tVrcb64tw6bNs2CaNrUGPM7yRrKvBBheQ5yCyPHKC
      * ```
      * @param url
      */
@@ -633,5 +633,5 @@ function secondsToHuman(seconds: number) {
 
 export type ContractFilter = {
   emitterAddress: string; // Emitter contract address to filter for
-  chainId: ChainId; // Wormhole ChainID to filter for
+  chainId: ChainId; // Deltaswap ChainID to filter for
 };

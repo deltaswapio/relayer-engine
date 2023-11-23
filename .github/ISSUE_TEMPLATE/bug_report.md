@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Submit a bug ticket if you have an issue. If you're a user, check out the Wormhole Discord server below for faster assistance.
+about: Submit a bug ticket if you have an issue. If you're a user, check out the Deltaswap Discord server below for faster assistance.
 title: ""
 labels: "bug"
 assignees: ""

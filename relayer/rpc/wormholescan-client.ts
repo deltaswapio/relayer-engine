@@ -1,28 +1,28 @@
 import { HttpClient, HttpClientError } from "./http-client.js";
 
-export interface Wormholescan {
+export interface Deltaswapscan {
   listVaas: (
     chain: number,
     emitterAddress: string,
-    opts?: WormholescanOptions,
-  ) => Promise<WormholescanResult<WormholescanVaa[]>>;
+    opts?: DeltaswapscanOptions,
+  ) => Promise<DeltaswapscanResult<DeltaswapscanVaa[]>>;
   getVaa: (
     chain: number,
     emitterAddress: string,
     sequence: bigint,
-    opts?: WormholescanOptions,
-  ) => Promise<WormholescanResult<WormholescanVaa>>;
+    opts?: DeltaswapscanOptions,
+  ) => Promise<DeltaswapscanResult<DeltaswapscanVaa>>;
 }
 
 /**
- * Client for the wormholescan API that never throws, but instead returns a WormholescanResult that may contain an error.
+ * Client for the deltaswapscan API that never throws, but instead returns a DeltaswapscanResult that may contain an error.
  */
-export class WormholescanClient implements Wormholescan {
+export class DeltaswapscanClient implements Deltaswapscan {
   private baseUrl: URL;
-  private defaultOptions?: WormholescanOptions;
+  private defaultOptions?: DeltaswapscanOptions;
   private client: HttpClient;
 
-  constructor(baseUrl: URL, defaultOptions?: WormholescanOptions) {
+  constructor(baseUrl: URL, defaultOptions?: DeltaswapscanOptions) {
     this.baseUrl = baseUrl;
     this.defaultOptions = defaultOptions;
     this.client = new HttpClient({
@@ -37,11 +37,11 @@ export class WormholescanClient implements Wormholescan {
   public async listVaas(
     chain: number,
     emitterAddress: string,
-    opts?: WormholescanOptions,
-  ): Promise<WormholescanResult<WormholescanVaa[]>> {
+    opts?: DeltaswapscanOptions,
+  ): Promise<DeltaswapscanResult<DeltaswapscanVaa[]>> {
     try {
       const response = await this.client.get<{
-        data: WormholescanVaaResponse[];
+        data: DeltaswapscanVaaResponse[];
       }>(
         `${
           this.baseUrl
@@ -68,10 +68,10 @@ export class WormholescanClient implements Wormholescan {
     chain: number,
     emitterAddress: string,
     sequence: bigint,
-    opts?: WormholescanOptions,
-  ): Promise<WormholescanResult<WormholescanVaa>> {
+    opts?: DeltaswapscanOptions,
+  ): Promise<DeltaswapscanResult<DeltaswapscanVaa>> {
     try {
-      const response = await this.client.get<{ data: WormholescanVaaResponse }>(
+      const response = await this.client.get<{ data: DeltaswapscanVaaResponse }>(
         `${
           this.baseUrl
         }api/v1/vaas/${chain}/${emitterAddress}/${sequence.toString()}`,
@@ -96,16 +96,16 @@ export class WormholescanClient implements Wormholescan {
     return { error: new HttpClientError(err.message) };
   }
 
-  private getPage(opts?: WormholescanOptions) {
+  private getPage(opts?: DeltaswapscanOptions) {
     return opts?.page ?? this.defaultOptions?.page ?? 0;
   }
 
-  private getPageSize(opts?: WormholescanOptions) {
+  private getPageSize(opts?: DeltaswapscanOptions) {
     return opts?.pageSize ?? this.defaultOptions?.pageSize ?? 10;
   }
 }
 
-export type WormholescanOptions = {
+export type DeltaswapscanOptions = {
   pageSize?: number;
   page?: number;
   retries?: number;
@@ -115,7 +115,7 @@ export type WormholescanOptions = {
   noCache?: boolean;
 };
 
-class WormholescanVaaResponse {
+class DeltaswapscanVaaResponse {
   id: string;
   sequence: bigint;
   vaa: string;
@@ -123,7 +123,7 @@ class WormholescanVaaResponse {
   emitterChain: number;
 }
 
-export type WormholescanVaa = {
+export type DeltaswapscanVaa = {
   id: string;
   sequence: bigint;
   vaa: Buffer;
@@ -132,7 +132,7 @@ export type WormholescanVaa = {
   txHash?: string;
 };
 
-export type WormholescanResult<T> = {
+export type DeltaswapscanResult<T> = {
   error?: HttpClientError;
   data?: T;
 };

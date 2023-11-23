@@ -1,5 +1,5 @@
-import { Next } from "@wormhole-foundation/relayer-engine";
-import { TokenBridgePayload } from "@certusone/wormhole-sdk";
+import { Next } from "@deltaswapio/relayer-engine";
+import { TokenBridgePayload } from "@deltaswapio/deltaswap-sdk";
 import { MyRelayerContext } from "./app.js";
 
 export class Controller {

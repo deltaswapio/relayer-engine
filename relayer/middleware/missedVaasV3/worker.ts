@@ -1,11 +1,11 @@
 import { Cluster, Redis } from "ioredis";
 import { Registry } from "prom-client";
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@deltaswapio/deltaswap-sdk";
 import { createPool, Pool } from "generic-pool";
 import { Logger } from "winston";
 
 import {
-  defaultWormholeRpcs,
+  defaultDeltaswapRpcs,
   defaultWormscanUrl,
   RelayerApp,
 } from "../../application.js";
@@ -30,16 +30,16 @@ import {
   trySetLastSafeSequence,
 } from "./storage.js";
 import {
-  Wormholescan,
-  WormholescanClient,
-} from "../../rpc/wormholescan-client.js";
+  Deltaswapscan,
+  DeltaswapscanClient,
+} from "../../rpc/deltaswapscan-client.js";
 
 const DEFAULT_PREFIX = "MissedVaaWorkerV3";
 
 export interface MissedVaaOpts extends RedisConnectionOpts {
   registry?: Registry;
   logger?: Logger;
-  wormholeRpcs?: string[];
+  deltaswapRpcs?: string[];
   wormscanUrl?: string;
   // How many "source" chains will be scanned for missed VAAs concurrently.
   concurrency?: number;
@@ -82,7 +82,7 @@ export async function spawnMissedVaaWorker(
   app: RelayerApp<any>,
   opts: MissedVaaOpts,
 ): Promise<void> {
-  opts.wormholeRpcs = opts.wormholeRpcs ?? defaultWormholeRpcs[app.env];
+  opts.deltaswapRpcs = opts.deltaswapRpcs ?? defaultDeltaswapRpcs[app.env];
   opts.wormscanUrl = opts.wormscanUrl ?? defaultWormscanUrl[app.env];
   if (!metrics) {
     metrics = opts.registry ? initMetrics(opts.registry) : {};
@@ -93,7 +93,7 @@ export async function spawnMissedVaaWorker(
   }
 
   const redisPool = createRedisPool(opts);
-  const wormholescan = new WormholescanClient(new URL(opts.wormscanUrl), {
+  const deltaswapscan = new DeltaswapscanClient(new URL(opts.wormscanUrl), {
     maxDelay: 60_000,
     noCache: true,
   });
@@ -141,7 +141,7 @@ export async function spawnMissedVaaWorker(
             app.processVaa.bind(app),
             opts,
             prefix,
-            wormholescan,
+            deltaswapscan,
             filterLogger,
           );
           updateMetrics(
@@ -175,7 +175,7 @@ export async function runMissedVaaCheck(
   processVaa: ProcessVaaFn,
   opts: MissedVaaOpts,
   storagePrefix: string,
-  wormholescan: Wormholescan,
+  deltaswapscan: Deltaswapscan,
   logger?: Logger,
 ) {
   const { emitterChain, emitterAddress } = filter;
@@ -194,7 +194,7 @@ export async function runMissedVaaCheck(
     processVaa,
     opts,
     storagePrefix,
-    wormholescan,
+    deltaswapscan,
     previousSafeSequence,
     logger,
   );
@@ -213,7 +213,7 @@ export async function runMissedVaaCheck(
     );
   } else if (failedToFetchSequencesOrError.length) {
     logger?.warn(
-      `Found sequences that we failed to get from wormhole-rpc. Sequences: ` +
+      `Found sequences that we failed to get from deltaswap-rpc. Sequences: ` +
         JSON.stringify(failedToFetchSequencesOrError),
     );
   } else {

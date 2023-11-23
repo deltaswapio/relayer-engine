@@ -1,4 +1,4 @@
-import * as wh from "@certusone/wormhole-sdk";
+import * as wh from "@deltaswapio/deltaswap-sdk";
 import * as bs58 from "bs58";
 import { ethers } from "ethers";
 import * as solana from "@solana/web3.js";
