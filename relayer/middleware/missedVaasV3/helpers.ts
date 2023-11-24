@@ -4,7 +4,7 @@ import {
   coalesceChainName,
   getSignedVAAWithRetry,
 } from "@deltaswapio/deltaswap-sdk";
-import { GetSignedVAAResponse } from "@deltaswapio/deltaswap-spydk/lib/cjs/proto/publicrpc/v1/publicrpc.js";
+import { GetSignedVAAResponse } from "@deltaswapio/deltaswap-sdk-proto-node/lib/cjs/publicrpc/v1/publicrpc.js";
 
 import { SerializableVaaId } from "../../application.js";
 import { FilterIdentifier } from "./worker.js";

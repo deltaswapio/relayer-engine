@@ -38,7 +38,7 @@ import { RelayJob, Storage } from "./storage/storage.js";
 import { emitterCapByEnv } from "./configs/sui.js";
 import { LRUCache } from "lru-cache";
 import { Environment } from "./environment.js";
-import { SpyRPCServiceClient } from "@deltaswapio/deltaswap-spydk/lib/cjs/proto/spy/v1/spy.js";
+import { SpyRPCServiceClient } from "@deltaswapio/deltaswap-sdk-proto-node/lib/cjs/spy/v1/spy.js";
 import { Registry } from "prom-client";
 import { createRelayerMetrics, RelayerMetrics } from "./application.metrics.js";
 
@@ -56,18 +56,18 @@ export type FetchaVaasOpts = {
 };
 
 export const defaultDeltaswapRpcs = {
-  [Environment.MAINNET]: ["https://api.deltaswapscan.io"],
+  [Environment.MAINNET]: ["https://p-1.deltaswap.io"],
   [Environment.TESTNET]: [
     "https://deltaswap-v2-testnet-api.certus.one",
-    "https://api.testnet.deltaswapscan.io",
+    "https://api.testnet.deltaswap.io",
   ],
   [Environment.DEVNET]: [""],
 };
 
 export const defaultWormscanUrl = {
-  [Environment.MAINNET]: "https://api.deltaswapscan.io",
-  [Environment.TESTNET]: "https://api.testnet.deltaswapscan.io",
-  [Environment.DEVNET]: "https://api.testnet.deltaswapscan.io",
+  [Environment.MAINNET]: "https://scanapi.deltaswap.io",
+  [Environment.TESTNET]: "https://api.testnet.deltaswap.io",
+  [Environment.DEVNET]: "https://api.testnet.deltaswap.io",
 };
 
 const defaultOpts = (env: Environment): RelayerAppOpts => ({
